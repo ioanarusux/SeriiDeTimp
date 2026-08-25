@@ -1,0 +1,48 @@
+=== DATE ===
+Perioada: 2005-01-01 - 2024-12-01, N=240
+
+=== ANALIZA UNIVARIATA: EUR_RON ===
+Trend determinist (panta liniara): 0.006570 lei/luna
+ADF EUR_RON nivel: stat=-1.1943, p=0.6760 -> nestationar
+ADF EUR_RON prima diferenta: stat=-7.4266, p=0.0000 -> stationar
+Train pana la 2022-12-01, test 12 luni
+ARIMA ales: order=(1, 1, 1), seasonal=(0, 0, 0, 0), AIC=-715.48
+Test SARIMA: RMSE=0.0271, MAPE=0.46%
+Test Holt-Winters: RMSE=0.0207, MAPE=0.37%
+Pe setul de test, Holt-Winters este mai precis decat SARIMA (MAPE mai mic).
+ARIMA ales: order=(1, 1, 1), seasonal=(0, 0, 0, 0), AIC=-820.84
+
+=== ANALIZA MULTIVARIATA ===
+ADF EUR_RON: stat=-1.1943, p=0.6760 -> nestationar
+ADF inflatie: stat=-1.9523, p=0.3079 -> nestationar
+ADF ROBOR3M: stat=-1.8814, p=0.3409 -> nestationar
+Test Johansen (urmarirea rangului):
+  r<=0: trace=35.494, crit 5%=29.796
+  r<=1: trace=5.894, crit 5%=15.494
+  r<=2: trace=1.141, crit 5%=3.841
+Rang cointegrare estimat: 2
+Model: VECM (existenta relatie de cointegrare)
+Det. terms outside the coint. relation & lagged endog. parameters for equation EUR_RON
+===============================================================================
+                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------
+L1.EUR_RON      0.2825      0.065      4.319      0.000       0.154       0.411
+L1.inflatie    -0.0024      0.005     -0.522      0.602      -0.011       0.007
+L1.ROBOR3M     -0.0086      0.005     -1.867      0.062      -0.018       0.000
+L2.EUR_RON      0.0525      0.069      0.764      0.445      -0.082       0.187
+L2.inflatie     0.0015      0.005      0.315      0.753      -0.008       0.011
+L2.ROBOR3M     -0.0048      0.004     -1.133      0.257      -0.013       0.004
+Det. terms outside the coint. relation & lagged endog. parameters for equation inflatie
+===============================================================================
+                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------
+L1.EUR_RON      0.1961      0.932      0.210      0.833      -1.6...
+
+Cauzalitate Granger (lag=2), p-values:
+  inflatie -> EUR_RON: p=0.6175
+  ROBOR3M -> EUR_RON: p=0.1781
+  EUR_RON -> inflatie: p=0.8808
+  ROBOR3M -> inflatie: p=0.8931
+
+Grafice salvate in folderul 'figuri/'.
+Analiza finalizata.
